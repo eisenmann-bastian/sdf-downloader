@@ -2,6 +2,9 @@
 __pycache__/
 *.py[cod]
 .venv/
+*.egg-info/
+build/
+dist/
 sdf/
 examples/sample_csv/
 examples/sample_mixed/

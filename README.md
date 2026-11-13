@@ -16,6 +16,10 @@ python -m pip install -r requirements.txt
 ```
 
 On Windows, activate the environment using `.venv\Scripts\activate` instead.
+Alternatively, install this repository as a Python package with
+`python -m pip install .`. This provides the `sdf-downloader` command and
+the `sdf_downloader.downloader.download_csv` Python API. The existing
+`python downloader.py` interface remains available.
 
 ## Quick start
 

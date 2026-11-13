@@ -10,7 +10,10 @@ from pathlib import Path
 
 import pubchempy
 
-from logging_config import configure_logging, get_logger
+if __package__:
+    from .logging_config import configure_logging, get_logger
+else:
+    from logging_config import configure_logging, get_logger
 
 logger = get_logger("downloader")
 FILTER_MODES = ("identity", "substructure", "superstructure", "similarity")

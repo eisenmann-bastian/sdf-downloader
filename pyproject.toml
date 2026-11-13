@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sdf-downloader"
+version = "0.1.0"
+description = "Download PubChem SDF records from CSV identifiers"
+requires-python = ">=3.10"
+dependencies = ["PubChemPy==1.0.5"]
+
+[project.scripts]
+sdf-downloader = "sdf_downloader.downloader:main"
+
+[tool.setuptools]
+packages = ["sdf_downloader"]
+package-dir = {sdf_downloader = "."}
