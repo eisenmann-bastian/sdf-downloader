@@ -4,9 +4,18 @@ Download molecular structures from [PubChem](https://pubchem.ncbi.nlm.nih.gov/)
 as SDF files using identifiers in a CSV file. The command processes each row,
 reports failures, and continues with subsequent rows.
 
+## Contents
+
+- [Installation](#installation) · [Quick start](#quick-start) ·
+  [Options and behavior](#options-and-behavior) · [Tests](#tests) ·
+  [Contributing](#contributing) · [Contact and support](#contact-and-support) ·
+  [License](#license)
+
 ## Installation
 
 Requires Python 3.10 or later and network access to PubChem for downloads.
+Installing dependencies also requires Git and network access to GitHub for
+`molecular-utilities`.
 From the repository root:
 
 ```sh
@@ -24,7 +33,7 @@ the `sdf_downloader.downloader.download_csv` Python API. The existing
 ## Quick start
 
 ```sh
-python downloader.py examples/sample.csv --output-dir sdf
+python downloader.py examples/sample-full.csv --output-dir sdf
 ```
 
 The CSV needs a header and at least one of these case-insensitive columns:
@@ -39,10 +48,15 @@ cid,name,inchi,smiles,formula
 ,,,CCO,
 ```
 
-See [sample.csv](examples/sample.csv) for rows containing all identifier types,
+See [sample-full.csv](examples/sample-full.csv) for rows containing all identifier types,
 and [sample-mixed.csv](examples/sample-mixed.csv) for different identifiers in
 different rows. [sample-usage.sh](examples/sample-usage.sh) demonstrates both
 files; it makes network requests and does not remove existing output.
+Alternatively, `./examples/run-example.sh` creates and uses the project's
+`.venv` if needed and writes both examples to a new temporary directory.
+It selects the first result for ambiguous mixed-input searches to keep the
+example bounded. Pass an output directory to select a location. Run `./examples/setup-venv.sh`
+to create an environment explicitly; it refuses to overwrite an existing path.
 
 ## Options and behavior
 
@@ -74,6 +88,9 @@ files are never overwritten. Each returned SDF must contain exactly one complete
 record with a unique PubChem CID. Missing, ambiguous, malformed, or failed
 results are logged as errors. With `all`, a failed CID does not prevent attempts
 for the remaining CIDs. The command exits nonzero if any row fails.
+The CLI configures shared `molecular-utilities` logging in the
+`sdf_downloader` namespace. The compatibility module `logging_config.py`
+delegates to that library.
 
 ## Tests
 
@@ -88,16 +105,29 @@ Set `PYTHON` to select an interpreter, for example `PYTHON=.venv/bin/python
 ./test.sh`. Alternatively, use `python -m unittest discover -s tests -t . -v`
 from the repository root.
 
+`./examples/run-tests.sh` also invokes the offline test runner.
+
 ## Repository layout
 
 ```text
 downloader.py       CSV processing and CLI
-logging_config.py   Console logging
-requirements.txt    Runtime dependency
+logging_config.py   Shared logging compatibility wrappers
+requirements.txt    Runtime dependencies
 examples/           Sample CSV files and usage script
 tests/              Offline unit and CLI tests
 test.sh             Test runner
 ```
+
+## Contributing
+
+Open an issue or submit a pull request. Include tests and update documentation
+when behavior changes.
+
+## Contact and support
+
+- GitHub: [@eisenmann-bastian](https://github.com/eisenmann-bastian)
+- LinkedIn: [Bastian Eisenmann](https://www.linkedin.com/in/bastianeisenmann/)
+- [Buy me a coffee](https://buymeacoffee.com/bastian.eisenmann)
 
 ## License
 

@@ -194,6 +194,20 @@ class SharedLoggingTests(unittest.TestCase):
         self.assertEqual(stream.getvalue().count("hello"), 1)
         self.assertIn("INFO sdf_downloader.another_tool:", stream.getvalue())
 
+    def test_reconfiguration_replaces_the_stream(self):
+        import io
+
+        parent = logging.getLogger("sdf_downloader")
+        old_handlers, old_level, old_propagate = parent.handlers[:], parent.level, parent.propagate
+        self.addCleanup(self.restore_logger, parent, old_handlers, old_level, old_propagate)
+        parent.handlers = []
+        first, second = io.StringIO(), io.StringIO()
+        configure_logging(stream=first)
+        configure_logging(stream=second)
+        get_logger("another_tool").info("hello")
+        self.assertEqual(first.getvalue(), "")
+        self.assertIn("INFO sdf_downloader.another_tool: hello", second.getvalue())
+
     @staticmethod
     def restore_logger(logger, handlers, level, propagate):
         for handler in logger.handlers:
